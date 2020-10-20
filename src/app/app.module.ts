@@ -10,6 +10,7 @@ import { SurveyComponent } from './survey/survey.component';
 import { EndComponent } from './end/end.component';
 import { DoorComponent } from './door/door.component';
 import { ConsentComponent } from './consent/consent.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ConsentComponent } from './consent/consent.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

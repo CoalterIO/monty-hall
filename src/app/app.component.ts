@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Evaluation } from '../evaluation';
 import { evaluation } from '../state';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +19,18 @@ export class AppComponent implements OnInit {
   showSurvey: boolean;
   showConsent: boolean;
   isControl: boolean;
+  totalAngularPackages;
 
   ngOnInit(): void {
     this.switchState(appState.CONSENT);
+  }
+
+  constructor(private http: HttpClient) {}
+
+  testApi() {
+    this.http.get<any>('/api/submission/test').subscribe(data => {
+      this.totalAngularPackages = data.total;
+    })
   }
 
   showModal() {

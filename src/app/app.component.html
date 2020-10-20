@@ -66,4 +66,11 @@
     </div>
   </div>
 </div>
+<div class="container" *ngIf="showConsent">
+  <div class="columns">
+    <div class="column has-text-centered">
+      <button class="button is-link is-rounded is-large" (click)="testApi()">Test Api</button>
+    </div>
+  </div>
+</div>
 <router-outlet></router-outlet>
