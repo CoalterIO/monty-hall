@@ -1,0 +1,33 @@
+<div class="container top-diff">
+    <div *ngIf="testing">
+        <div class="columns is-centered is-vcentered is-mobile">
+            <div class="column is-one-third is-hidden-touch"></div>
+            <div class="column has-text-centered">
+                <app-door door="1"></app-door>
+            </div>
+            <div class="column has-text-centered">
+                <app-door door="2"></app-door>
+            </div>
+            <div class="column has-text-centered">
+                <app-door door="3"></app-door>
+            </div>
+            <div class="column is-one-third is-hidden-touch"></div>
+        </div>
+    </div>
+    <div class="container has-text-centered unselectable" *ngIf="win">
+        <div class="content">
+            <h1>
+                You Win
+                <p>Try Again</p>
+            </h1>
+        </div>
+    </div>
+    <div class="container has-text-centered unselectable" *ngIf="lose">
+        <div class="content">
+            <h1>
+                You Lose
+                <p>Try Again</p>
+            </h1>
+        </div>
+    </div>
+</div>

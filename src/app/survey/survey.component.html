@@ -1,0 +1,59 @@
+<div class="modal" id="endModal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box has-background-white">
+            <p class="content is-large has-text-black has-text-centered"><b>Thank you for Participating</b></p>
+            <p class="content is-large has-text-black has-text-centered">Your data has been submitted</p>
+            <p class="content is-large has-text-black has-text-centered">You may now close this window</p>
+        </div>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column is-10 is-offset-1">
+        <div class="box has-background-grey-lighter">
+            <p class="content is-large has-text-dark"><b>Ending Survey</b></p>
+            <div class="content circle has-text-dark">
+                <h5>Question 1:</h5>
+                <p>Were you familiar with the Monty Hall problem before participating in this experiment?</p>
+                <div class="control">
+                    <div class="select">
+                        <select id="q1">
+                            <option selected disabledvalue="na">Please select an answer:</option>
+                            <option value="yes">Yes, I was</option>
+                            <option value="no">No, I wasn't</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="content circle has-text-dark" *ngIf="yesToFirst">
+                <h5>Question 1 follow-up:</h5>
+                <p>Did you know the optimal strategy for winning beforehand in this experiment?</p>
+                <div class="control">
+                    <div class="select">
+                        <select id="q2">
+                            <option selected disabled value="na">Please select an answer:</option>
+                            <option value="yes">Yes, I did</option>
+                            <option value="no">No, I didn't</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="content circle has-text-dark" *ngIf="firstAnswered">
+                <h5>Question 2:</h5>
+                <p>Please indicate your strategy for winning.</p>
+                <div class="control">
+                    <textarea class="textarea" placeholder="Answer:" id="q3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="firstAnswered">
+    <div class="columns">
+        <div class="column has-text-centered">
+            <button class="button is-link is-rounded is-large" (click)="submit()">Submit</button>
+        </div>
+    </div>
+</div>
