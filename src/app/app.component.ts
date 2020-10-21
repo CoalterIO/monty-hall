@@ -59,6 +59,7 @@ export class AppComponent implements OnInit {
   }
 
   survey() {
+    evaluation.startTesting = false;
     this.switchState(appState.SURVEY);
   }
 
