@@ -10,7 +10,6 @@ export class Evaluation {
     //public currentTestOver: boolean;
     public disabledDoorList: Number[];
     public isTestControlList: boolean[];
-    public isTestWinList: boolean[];
     public currentTest: number;
     public displayWin: number;
     public somethingNotSelected: boolean;
@@ -19,10 +18,22 @@ export class Evaluation {
 
     private report: Report;
 
+    public secondSelectionList: Number[];
+    public firstSelectionList: Number[];
+    public isTestWinList: boolean[];
+    public didSwapList: boolean[];
+    public timer1List: Number[];
+    public timer2List: Number[];
+
+    public endFirstSelection: boolean;
+    public endSecondSelection: boolean;
+    public timer1: number;
+    public timer2: number;
+
     constructor() {
         this.startTesting = false;
         //this.disabledDoor = 0;
-        this.selectedDoor = 0;
+        //this.selectedDoor = 0;
         this.somethingNotSelected = true;
         this.selection = 0;
         //this.currentTestOver = false;
@@ -33,9 +44,56 @@ export class Evaluation {
         this.displayWin = 0;
 
         this.report = new Report();
+        
+        this.firstSelectionList = new Array(this.testLength);
+        this.secondSelectionList = new Array(this.testLength);
+        this.didSwapList = new Array(this.testLength);
+        this.timer1List = new Array(this.testLength);
+        this.timer2List = new Array(this.testLength);
+
+        this.endFirstSelection = true;
+        this.endSecondSelection = true;
+        this.startFirstSelection();
+        this.startSecondSelection();
+    }
+
+    startFirstSelection() {
+        this.timer1 = 0;
+        setInterval(() => {
+            if (!this.endFirstSelection) {
+                this.timer1 += .01;
+            }
+        }, 10);
+    }
+
+    setFirstInterval() {
+        if (this.currentTest == 0) {
+            this.timer1List[this.currentTest] = this.timer1;
+            //console.log(this.timer1);
+        } else {
+            this.timer1List[this.currentTest] = this.timer1 - 3;
+            //console.log(this.timer1 - 3);
+        }
+        this.timer1 = 0;
+    }
+
+    setSecondInterval() {
+        this.timer2List[this.currentTest] = this.timer2;
+        //console.log(this.timer2);
+        this.timer2 = 0;
+    }
+
+    startSecondSelection() {
+        this.timer2 = 0;
+        setInterval(() => {
+            if (!this.endSecondSelection) {
+                this.timer2 += .01;
+            }
+        }, 10);
     }
 
     public sendReport() {
+        this.testResults();
         this.report.sendReport();
     }
 
@@ -47,8 +105,18 @@ export class Evaluation {
         this.report.setStartSurvey(a1, a2);
     }
 
+    public testResults() {
+        this.report.setTestResults(this.isTestWinList, this.firstSelectionList, this.secondSelectionList, this.didSwapList);
+        this.report.setTestIntervals(this.timer1List, this.timer2List);
+    }
+
     public setFirstSelection(x: number) {
         this.firstSelection = x;
+        this.firstSelectionList[this.currentTest] = x;
+    }
+
+    public setSecondSelection(x: number) {
+        this.secondSelectionList[this.currentTest] = x;
     }
 
     public isCurrentTestControl(): boolean {
@@ -59,7 +127,7 @@ export class Evaluation {
         this.disabledDoorList = null;
         this.selection = 0;
         this.firstSelection = 0;
-        this.selectedDoor = 0;
+        //this.selectedDoor = 0;
         if (this.isCurrentTestControl()) {
             this.disabledDoorList = new Array(3);
         } else {
@@ -96,19 +164,18 @@ export class Evaluation {
         //console.log(this.currentTest);
         //console.log(this.isCurrentTestControl());
         var x = Math.random();
+        this.didSwapList[this.currentTest] = swapped;
         if (swapped) {
             if (x > .33) {
                 this.isTestWinList[this.currentTest] = true;
-                this.currentTest++;
             }
         } else {
             if (x > .67) {
                 this.isTestWinList[this.currentTest] = true;
-                this.currentTest++;
             }
         }
-        this.isTestWinList[this.currentTest] = false;
         this.currentTest++;
+        this.isTestWinList[this.currentTest] = false;
         if (this.currentTest >= this.testLength) {
             this.startTesting = false;
         }

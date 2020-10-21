@@ -1,9 +1,17 @@
+import { first } from 'rxjs/operators';
+
 export class Report{
     private eagleID: string;
     private gender: string;
     private familiarity: string;
     private knewStrategy: string;
     private strategy: string;
+    private winList: boolean[];
+    private swapList: boolean[];
+    private firstSelectionList: Number[];
+    private secondSelectionList: Number[];
+    private firstIntervalList: Number[];
+    private secondIntervalList: Number[];
     
     constructor() {}
 
@@ -18,6 +26,18 @@ export class Report{
         this.strategy = a5;
     }
 
+    public setTestResults(w: boolean[], f: Number[], s: Number[], swap: boolean[]) {
+        this.winList = w;
+        this.firstSelectionList = f;
+        this.secondSelectionList = s;
+        this.swapList = swap;
+    }
+
+    public setTestIntervals(x: Number[], y: Number[]) {
+        this.firstIntervalList = x;
+        this.secondIntervalList = y;
+    }
+
     public async sendReport() {
         const body: Body = {
             eagleid: this.eagleID,
@@ -25,6 +45,12 @@ export class Report{
             familiarity: this.familiarity,
             knewstrategy: this.knewStrategy,
             strategy: this.strategy,
+            winlist: this.winList,
+            swaplist: this.swapList,
+            firstlist: this.firstSelectionList,
+            secondlist: this.secondSelectionList,
+            interval1: this.firstIntervalList,
+            interval2: this.secondIntervalList,
         }
         const response = await fetch("/api/submission/submit", {
             method: 'POST',
@@ -39,4 +65,10 @@ type Body = {
     familiarity: string;
     knewstrategy: string;
     strategy: string;
+    winlist: boolean[];
+    swaplist: boolean[];
+    firstlist: Number[];
+    secondlist: Number[];
+    interval1: Number[];
+    interval2: Number[];
 }

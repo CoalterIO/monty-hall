@@ -71,6 +71,7 @@ export class AppComponent implements OnInit {
       this.isControl = true;
     }
     this.switchState(appState.CONTROL);
+    console.log(this.isControl);
     evaluation.setIsControl(this.isControl);
 
     const timer = setInterval(() => {

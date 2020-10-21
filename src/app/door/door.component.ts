@@ -21,9 +21,12 @@ export class DoorComponent implements OnInit {
   //timerList: NodeJS.Timeout[]
 
   ngOnInit(): void {
+    this.number = parseInt(this.door);
     if (evaluation.startTesting) {
       this.firstTest();
       this.removeBarrier();
+
+      evaluation.endFirstSelection = false;
         
       this.currentTest = evaluation.currentTest;
       this.number = parseInt(this.door);
@@ -60,8 +63,8 @@ export class DoorComponent implements OnInit {
           setTimeout(() => {
             this.element.classList.remove("unclickable");
             this.element.classList.add("clickable");
+            clearInterval(timer);
           }, 1000);
-          clearInterval(timer);
         }
       }, 10);
     }
@@ -104,19 +107,24 @@ export class DoorComponent implements OnInit {
       evaluation.somethingNotSelected = false;
       evaluation.selection++;
       if (evaluation.selection == 1) {
-        evaluation.firstSelection = this.number;
+        evaluation.endFirstSelection = true;
+        evaluation.setFirstInterval();
+        evaluation.setFirstSelection(this.number);
         evaluation.disableRandom(this.number);
         setTimeout(() => {
           this.switchState(doorState.UNSELECTED);
           evaluation.somethingNotSelected = true;
+          evaluation.endSecondSelection = false;
         }, 1000);
       } else {
+        evaluation.endSecondSelection = true;
+        evaluation.setSecondInterval();
+        evaluation.setSecondSelection(this.number);
         setTimeout(() => {
           evaluation.somethingNotSelected = true;
           evaluation.calculateWin(evaluation.firstSelection != this.number)
           // evaluation.displayWin = 0;
           evaluation.selection = 0;
-          this.ngOnInit();
         }, 1000);
       }
     }
