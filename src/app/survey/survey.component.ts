@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { evaluation } from '../../state';
 
 @Component({
   selector: 'app-survey',
@@ -10,11 +11,17 @@ export class SurveyComponent implements OnInit {
   yesToFirst = false;
   firstAnswered = false;
   answered = false;
+  q3: HTMLSelectElement;
+  q4: HTMLSelectElement;
+  q5: HTMLTextAreaElement;
+
+  a3: string;
+  a4: string;
+  a5: string;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.startListening();
   }
 
   showEnd() {
@@ -23,34 +30,39 @@ export class SurveyComponent implements OnInit {
   }
 
   submit() {
-    // code to submit answers
+    this.q3 = document.getElementById("q3") as HTMLSelectElement;
+    this.a3 = this.q3.value;
+    this.q5 = document.getElementById("q5") as HTMLTextAreaElement;
+    this.a5 = this.q5.value;
+
+    this.q4 = document.getElementById("q4") as HTMLSelectElement;
+    if (this.q4 == null) {
+      this.a4 = "n/a";
+    } else {
+      this.a4 = this.q4.value;
+    }
+
+    evaluation.endSurvey(this.a3, this.a4, this.a5);
+    evaluation.sendReport();
+
     this.showEnd();
   }
 
-  startListening() {
-    var q1 = document.getElementById("q1") as HTMLSelectElement;
-    var q2;
-    const timer = setInterval(() => {
-      if (q1.value == "yes") {
-        this.yesToFirst = true;
-        q2 = document.getElementById("q2") as HTMLSelectElement
-      } else if (q1.value == "no") {
-        this.firstAnswered = true;
-        q2 = document.getElementById("q2") as HTMLSelectElement
-      }
-      //haha xd
+  question3() {
+    this.q3 = document.getElementById("q3") as HTMLSelectElement;
+    this.a3 = this.q3.value;
+    if (this.a3 == "yes") {
+      this.yesToFirst = true;
+    } else {
+      this.yesToFirst = false;
+      this.firstAnswered = true;
+    }
+  }
 
-      if (q2 != null) {
-        if (q2.value == "yes") {
-          this.firstAnswered = true;
-          clearInterval(timer);
-        } else if (q2.value == "no") {
-          this.firstAnswered = true;
-          clearInterval(timer);
-        }
-      }
-
-    }, 10);
+  question4() {
+    this.q4 = document.getElementById("q4") as HTMLSelectElement;
+    this.a4 = this.q4.value;
+    this.firstAnswered = true;
   }
 
 }

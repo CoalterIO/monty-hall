@@ -21,7 +21,12 @@ export class AppComponent implements OnInit {
   isControl: boolean;
   totalAngularPackages;
 
+  q1: HTMLInputElement;
+  q2: HTMLSelectElement;
+
   ngOnInit(): void {
+    this.q1 = document.getElementById("q1") as HTMLInputElement;
+    this.q2 = document.getElementById("q2") as HTMLSelectElement;
     this.switchState(appState.CONSENT);
   }
 
@@ -44,7 +49,7 @@ export class AppComponent implements OnInit {
   }
 
   startInstruction() {
-    // info submission for the form
+    evaluation.startSurvey(this.q1.value, this.q2.value);
     this.hideModal();
     this.instruct();
   }

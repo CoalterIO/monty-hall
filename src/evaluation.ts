@@ -1,3 +1,6 @@
+import { Report } from './report';
+import { HttpClient } from '@angular/common/http';
+
 export class Evaluation {
     private isControl: boolean;
     //public disabledDoor: number;
@@ -14,6 +17,8 @@ export class Evaluation {
     public startTesting: boolean;
     public testLength = 60;
 
+    private report: Report;
+
     constructor() {
         this.startTesting = false;
         //this.disabledDoor = 0;
@@ -26,6 +31,20 @@ export class Evaluation {
         this.isTestWinList = new Array(this.testLength);
         this.disabledDoorList = new Array(3);
         this.displayWin = 0;
+
+        this.report = new Report();
+    }
+
+    public sendReport() {
+        this.report.sendReport();
+    }
+
+    public endSurvey(a3: string, a4: string, a5: string) {
+        this.report.setEndSurvey(a3, a4, a5);
+    }
+
+    public startSurvey(a1: string, a2: string) {
+        this.report.setStartSurvey(a1, a2);
     }
 
     public setFirstSelection(x: number) {

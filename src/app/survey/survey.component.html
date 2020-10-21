@@ -18,8 +18,8 @@
                 <p>Were you familiar with the Monty Hall problem before participating in this experiment?</p>
                 <div class="control">
                     <div class="select">
-                        <select id="q1">
-                            <option selected disabledvalue="na">Please select an answer:</option>
+                        <select id="q3" (change)="question3()">
+                            <option selected disabled value="na">Please select an answer:</option>
                             <option value="yes">Yes, I was</option>
                             <option value="no">No, I wasn't</option>
                         </select>
@@ -31,7 +31,7 @@
                 <p>Did you know the optimal strategy for winning beforehand in this experiment?</p>
                 <div class="control">
                     <div class="select">
-                        <select id="q2">
+                        <select id="q4" (change)="question4()">
                             <option selected disabled value="na">Please select an answer:</option>
                             <option value="yes">Yes, I did</option>
                             <option value="no">No, I didn't</option>
@@ -43,7 +43,7 @@
                 <h5>Question 2:</h5>
                 <p>Please indicate your strategy for winning.</p>
                 <div class="control">
-                    <textarea class="textarea" placeholder="Answer:" id="q3"></textarea>
+                    <textarea class="textarea" placeholder="Answer:" id="q5"></textarea>
                 </div>
             </div>
         </div>
