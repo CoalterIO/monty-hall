@@ -1,5 +1,6 @@
 import { Report } from './report';
 import { HttpClient } from '@angular/common/http';
+import { windowToggle } from 'rxjs/operators';
 
 export class Evaluation {
     private isControl: boolean;
@@ -67,12 +68,12 @@ export class Evaluation {
     }
 
     setFirstInterval() {
-        this.timer1List[this.currentTest] = Math.round((this.timer1) * 100) / 100;
+        this.timer1List[this.currentTest] = Math.round((this.timer1 - 1) * 100) / 100;
         this.timer1 = 0;
     }
 
     setSecondInterval() {
-        this.timer2List[this.currentTest] = Math.round((this.timer2) * 100) / 100;
+        this.timer2List[this.currentTest] = Math.round((this.timer2 - 1) * 100) / 100;
         //console.log(this.timer2);
         this.timer2 = 0;
     }
@@ -100,7 +101,24 @@ export class Evaluation {
     }
 
     public testResults() {
-        this.report.setTestResults(this.isTestWinList, this.firstSelectionList, this.secondSelectionList, this.didSwapList);
+        var winList = new Array(this.testLength);
+        for (var i = 0; i < winList.length; i++) {
+            if (this.isTestWinList[i]) {
+                winList[i] = "won";
+            } else {
+                winList[i] = "lost";
+            }
+        }
+
+        var swapList = new Array(this.testLength);
+        for (var i = 0; i < swapList.length; i++) {
+            if (this.didSwapList[i]) {
+                swapList[i] = "swapped";
+            } else {
+                swapList[i] = "didn't swap";
+            }
+        }
+        this.report.setTestResults(winList, this.firstSelectionList, this.secondSelectionList, swapList);
         this.report.setTestIntervals(this.timer1List, this.timer2List);
     }
 

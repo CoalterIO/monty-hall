@@ -6,8 +6,8 @@ export class Report{
     private familiarity: string;
     private knewStrategy: string;
     private strategy: string;
-    private winList: boolean[];
-    private swapList: boolean[];
+    private winList: string[];
+    private swapList: string[];
     private firstSelectionList: Number[];
     private secondSelectionList: Number[];
     private firstIntervalList: Number[];
@@ -26,7 +26,7 @@ export class Report{
         this.strategy = a5;
     }
 
-    public setTestResults(w: boolean[], f: Number[], s: Number[], swap: boolean[]) {
+    public setTestResults(w: string[], f: Number[], s: Number[], swap: string[]) {
         this.winList = w;
         this.firstSelectionList = f;
         this.secondSelectionList = s;
@@ -65,8 +65,8 @@ type Body = {
     familiarity: string;
     knewstrategy: string;
     strategy: string;
-    winlist: boolean[];
-    swaplist: boolean[];
+    winlist: string[];
+    swaplist: string[];
     firstlist: Number[];
     secondlist: Number[];
     interval1: Number[];

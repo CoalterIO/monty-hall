@@ -30,31 +30,34 @@ export class ControlComponent implements OnInit {
 
   startTesting() {
     const timer = setInterval(() => {
-      if (evaluation.currentTest < 60) {
-        if (evaluation.currentTest != this.currentTest) {
-          if (evaluation.isTestWinList[this.currentTest]) {
-            this.win = true;
-          } else {
-            this.lose = true;
-          }
-          this.testing = false;
-          setTimeout(() => {
-            this.currentTest = evaluation.currentTest;
-            this.win = false;
-            this.lose = false;
-            setTimeout(() => {
-              this.testing = true;
-            }, 1000);
-          }, 2000);
+      if (evaluation.currentTest != this.currentTest) {
+        if (evaluation.isTestWinList[this.currentTest]) {
+          this.win = true;
+        } else {
+          this.lose = true;
         }
-        if (!evaluation.isCurrentTestControl()) {
-          clearInterval(timer);
-        }
-      } else {
-        this.win = false;
-        this.lose = false;
         this.testing = false;
-        clearInterval(timer);
+        setTimeout(() => {
+          this.currentTest = evaluation.currentTest;
+          this.win = false;
+          this.lose = false;
+          setTimeout(() => {
+            if (evaluation.currentTest < 60) {
+              this.testing = true;         
+            } else {
+              this.win = false;
+              this.lose = false;
+              this.testing = false;
+              clearInterval(timer);
+            }
+            if (!evaluation.isCurrentTestControl()) {
+              this.win = false;
+              this.lose = false;
+              this.testing = false;
+              clearInterval(timer); 
+            }
+          }, 1000);
+        }, 2000);
       }
     }, 1);
   }
