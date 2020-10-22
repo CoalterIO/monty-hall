@@ -1,5 +1,5 @@
 import { Interpolation } from '@angular/compiler';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 // import { Evaluation } from '../../evaluation'
 import { evaluation } from '../../state'
 
@@ -17,58 +17,73 @@ export class DoorComponent implements OnInit {
   disabled: boolean;
   number: number;
   currentTest: number;
-  element: HTMLElement;
-  //timerList: NodeJS.Timeout[]
+  passthrough: HTMLElement;
+  currentSelection: number;
 
   ngOnInit(): void {
-    this.number = parseInt(this.door);
-    if (evaluation.startTesting) {
-      this.firstTest();
-      this.removeBarrier();
+    // this.number = parseInt(this.door);
+    // if (evaluation.startTesting) {
+    //   this.firstTest();
+    //   this.removeBarrier();
 
-      evaluation.endFirstSelection = false;
+    //   evaluation.endFirstSelection = false;
         
-      this.currentTest = evaluation.currentTest;
-      this.number = parseInt(this.door);
+    //   this.currentTest = evaluation.currentTest;
+    //   this.number = parseInt(this.door);
+    //   this.switchState(doorState.UNSELECTED);
+
+    //   this.startCheckingDisabled();
+    //   this.startCheckingTestEnd();
+    // }
+
+    if (evaluation.currentTest < 60) {
+      evaluation.resetTest();
       this.switchState(doorState.UNSELECTED);
-
-      this.startCheckingDisabled();
-      this.startCheckingTestEnd();
+      this.number = parseInt(this.door);
+      this.startChecking();
+      this.passthrough = document.getElementById("passthrough" + this.door);
+      this.addBarrier(1000);
+      this.currentSelection = 0;
+      evaluation.endFirstSelection = false;
+    } else {
+      this.switchState(doorState.GONE);
     }
   }
 
-  removeBarrier() {
-    this.element = document.getElementById("passthrough");
-    setTimeout(() => {
-      if (this.element != null) {
-        this.element.classList.remove("clickable");
-        this.element.classList.add("unclickable");
-        setTimeout(() => {
-          if (this.element != null) {
-            this.element.classList.remove("unclickable");
-            this.element.classList.add("clickable");
-          }
-        }, 1000);
-      }
-    }, 3100);
-  }
+  // ngOnDestroy(): void {
+  //   console.log("destroy");
+  //   clearInterval(this.timer);
+  // }
 
-  firstTest() {
-    if (!evaluation.startTesting) {
-      const timer = setInterval(() => {
-        if (evaluation.startTesting) {
-          this.element = document.getElementById("passthrough");
-          this.element.classList.remove("clickable");
-          this.element.classList.add("unclickable");
-          setTimeout(() => {
-            this.element.classList.remove("unclickable");
-            this.element.classList.add("clickable");
-            clearInterval(timer);
-          }, 1000);
+  addBarrier(time: number) {
+    if (this.passthrough != null) {
+      this.passthrough.classList.add("unclickable");
+      this.passthrough.classList.remove("clickable");
+      setTimeout(() => {
+        if (this.passthrough != null) {
+          this.passthrough.classList.add("clickable");
+          this.passthrough.classList.remove("unclickable");
         }
-      }, 10);
+      }, time);
     }
   }
+
+  // firstTest() {
+  //   if (!evaluation.startTesting) {
+  //     const timer = setInterval(() => {
+  //       if (evaluation.startTesting) {
+  //         this.element = document.getElementById("passthrough");
+  //         this.element.classList.remove("clickable");
+  //         this.element.classList.add("unclickable");
+  //         setTimeout(() => {
+  //           this.element.classList.remove("unclickable");
+  //           this.element.classList.add("clickable");
+  //           clearInterval(timer);
+  //         }, 1000);
+  //       }
+  //     }, 10);
+  //   }
+  // }
 
   switchState(state: doorState) {
     switch (state) {
@@ -123,7 +138,6 @@ export class DoorComponent implements OnInit {
         setTimeout(() => {
           evaluation.somethingNotSelected = true;
           evaluation.calculateWin(evaluation.firstSelection != this.number)
-          // evaluation.displayWin = 0;
           evaluation.selection = 0;
         }, 1000);
       }
@@ -137,25 +151,26 @@ export class DoorComponent implements OnInit {
     return false;
   }
 
-  startCheckingDisabled() {
+  startChecking() {
     const timer = setInterval(() => {
       if (this.checkIfDisabled()) {
-        clearInterval(timer);
         this.switchState(doorState.DISABLED);
         setTimeout(() => {
           this.switchState(doorState.DISABLED);
         }, 1000);
       }
-    }, 10);
-  }
-
-  startCheckingTestEnd() {
-    const timer = setInterval(() => {
       if (evaluation.currentTest != this.currentTest) {
-        clearInterval(timer);
-        evaluation.resetTest();
-        this.ngOnInit();
         this.currentTest = evaluation.currentTest;
+      }
+      if (evaluation.selection != this.currentSelection) {
+        this.addBarrier(2000);
+        this.currentSelection = evaluation.selection;
+      }
+      if (evaluation.selection == 2) {
+        clearInterval(timer);
+        setTimeout(() => {
+          this.switchState(doorState.GONE);
+        }, 1000);
       }
     }, 10);
   }

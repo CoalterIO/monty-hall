@@ -67,18 +67,12 @@ export class Evaluation {
     }
 
     setFirstInterval() {
-        if (this.currentTest == 0) {
-            this.timer1List[this.currentTest] = Math.round(this.timer1 * 100) / 100;
-            //console.log(this.timer1);
-        } else {
-            this.timer1List[this.currentTest] = Math.round((this.timer1 - 3) * 100) / 100;
-            //console.log(this.timer1 - 3);
-        }
+        this.timer1List[this.currentTest] = Math.round((this.timer1) * 100) / 100;
         this.timer1 = 0;
     }
 
     setSecondInterval() {
-        this.timer2List[this.currentTest] = Math.round(this.timer2 * 100) / 100;
+        this.timer2List[this.currentTest] = Math.round((this.timer2) * 100) / 100;
         //console.log(this.timer2);
         this.timer2 = 0;
     }
@@ -161,7 +155,7 @@ export class Evaluation {
     }
 
     public calculateWin(swapped: boolean) {
-        //console.log(this.currentTest);
+        console.log(this.currentTest);
         //console.log(this.isCurrentTestControl());
         var x = Math.random();
         this.didSwapList[this.currentTest] = swapped;

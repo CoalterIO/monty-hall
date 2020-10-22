@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { evaluation } from '../../state';
 
 @Component({
@@ -12,6 +12,7 @@ export class ExperimentalComponent implements OnInit {
   lose: boolean;
   testing: boolean;
   currentTest: number;
+  //timerArray;
 
   constructor() {
     this.win = false;
@@ -21,26 +22,41 @@ export class ExperimentalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    evaluation.resetTest();
     this.startTesting();
   }
 
+  // ngOnDestroy() {
+  //   clearInterval(this.timer);
+  // }
+
   startTesting() {
     const timer = setInterval(() => {
-      if (evaluation.currentTest != this.currentTest) {
-        if (evaluation.isTestWinList[this.currentTest]) {
-          this.win = true;
-        } else {
-          this.lose = true;
-        }
-        this.testing = false;
-        setTimeout(() => {
-          this.currentTest = evaluation.currentTest;
-          this.win = false;
-          this.lose = false;
+      if (evaluation.currentTest < 60) {
+        if (evaluation.currentTest != this.currentTest) {
+          if (evaluation.isTestWinList[this.currentTest]) {
+            this.win = true;
+          } else {
+            this.lose = true;
+          }
+          this.testing = false;
           setTimeout(() => {
-            this.testing = true;
-          }, 1000);
-        }, 2000);
+            this.currentTest = evaluation.currentTest;
+            this.win = false;
+            this.lose = false;
+            setTimeout(() => {
+              this.testing = true;
+            }, 1000);
+          }, 2000);
+        }
+        if (evaluation.isCurrentTestControl()) {
+          clearInterval(timer);
+        }
+      } else {
+        this.win = false;
+        this.lose = false;
+        this.testing = false;
+        clearInterval(timer);
       }
     }, 1);
   }
