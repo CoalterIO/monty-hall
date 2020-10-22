@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Evaluation } from '../evaluation';
 import { evaluation } from '../state';
-import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
@@ -19,7 +18,6 @@ export class AppComponent implements OnInit {
   showSurvey: boolean;
   showConsent: boolean;
   isControl: boolean;
-  totalAngularPackages;
 
   q1: HTMLInputElement;
   q2: HTMLSelectElement;
@@ -30,11 +28,11 @@ export class AppComponent implements OnInit {
     this.switchState(appState.CONSENT);
   }
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  testApi() {
-    this.http.get<any>('/api/submission/test').subscribe(data => {
-      this.totalAngularPackages = data.total;
+  async testApi() {
+    const response = await fetch("/api/submission/test", {
+      method: 'GET'
     })
   }
 
