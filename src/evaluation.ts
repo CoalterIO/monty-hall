@@ -96,9 +96,9 @@ export class Evaluation {
         this.report.setEndSurvey(a3, a4, a5);
     }
 
-    public startSurvey(a1: string, a2: string) {
-        this.report.setStartSurvey(a1, a2);
-    }
+    // public startSurvey(a1: string, a2: string) {
+    //     this.report.setStartSurvey(a1, a2);
+    // }
 
     public testResults() {
         var winList = new Array(this.testLength);
@@ -113,9 +113,9 @@ export class Evaluation {
         var swapList = new Array(this.testLength);
         for (var i = 0; i < swapList.length; i++) {
             if (this.didSwapList[i]) {
-                swapList[i] = "swapped";
+                swapList[i] = "switched";
             } else {
-                swapList[i] = "didn't swap";
+                swapList[i] = "stayed";
             }
         }
         this.report.setTestResults(winList, this.firstSelectionList, this.secondSelectionList, swapList);

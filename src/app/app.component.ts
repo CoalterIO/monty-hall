@@ -19,12 +19,12 @@ export class AppComponent implements OnInit {
   showConsent: boolean;
   isControl: boolean;
 
-  q1: HTMLInputElement;
-  q2: HTMLSelectElement;
+  // q1: HTMLInputElement;
+  // q2: HTMLSelectElement;
 
   ngOnInit(): void {
-    this.q1 = document.getElementById("q1") as HTMLInputElement;
-    this.q2 = document.getElementById("q2") as HTMLSelectElement;
+    // this.q1 = document.getElementById("q1") as HTMLInputElement;
+    // this.q2 = document.getElementById("q2") as HTMLSelectElement;
     this.switchState(appState.CONSENT);
   }
 
@@ -36,19 +36,19 @@ export class AppComponent implements OnInit {
     })
   }
 
-  showModal() {
-    var modal = document.getElementById("surveyModal");
-    modal.classList.add('is-active');
-  }
+  // showModal() {
+  //   var modal = document.getElementById("surveyModal");
+  //   modal.classList.add('is-active');
+  // }
 
-  hideModal() {
-    var modal = document.getElementById("surveyModal");
-    modal.classList.remove('is-active');
-  }
+  // hideModal() {
+  //   var modal = document.getElementById("surveyModal");
+  //   modal.classList.remove('is-active');
+  // }
 
   startInstruction() {
-    evaluation.startSurvey(this.q1.value, this.q2.value);
-    this.hideModal();
+    // evaluation.startSurvey(this.q1.value, this.q2.value);
+    // this.hideModal();
     this.instruct();
   }
 

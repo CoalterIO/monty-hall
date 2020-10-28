@@ -3,3 +3,6 @@ dev:
 
 build:
 	ng build --prod --output-path docs --base-href /monty-hall/
+
+prod:
+	ng build --prod

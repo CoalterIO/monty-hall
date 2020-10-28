@@ -1,8 +1,8 @@
 import { first } from 'rxjs/operators';
 
 export class Report{
-    private eagleID: string;
-    private gender: string;
+    // private eagleID: string;
+    // private gender: string;
     private familiarity: string;
     private knewStrategy: string;
     private strategy: string;
@@ -15,10 +15,10 @@ export class Report{
     
     constructor() {}
 
-    public setStartSurvey(a1: string, a2: string) {
-        this.eagleID = a1;
-        this.gender = a2;
-    }
+    // public setStartSurvey(a1: string, a2: string) {
+    //     this.eagleID = a1;
+    //     this.gender = a2;
+    // }
 
     public setEndSurvey(a3: string, a4: string, a5: string) {
         this.familiarity = a3;
@@ -40,8 +40,8 @@ export class Report{
 
     public async sendReport() {
         const body: Body = {
-            eagleid: this.eagleID,
-            gender: this.gender,
+            // eagleid: this.eagleID,
+            // gender: this.gender,
             familiarity: this.familiarity,
             knewstrategy: this.knewStrategy,
             strategy: this.strategy,
@@ -60,8 +60,8 @@ export class Report{
 }
 
 type Body = {
-    eagleid: string;
-    gender: string;
+    // eagleid: string;
+    // gender: string;
     familiarity: string;
     knewstrategy: string;
     strategy: string;
