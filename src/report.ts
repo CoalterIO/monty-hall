@@ -2,7 +2,7 @@ import { first } from 'rxjs/operators';
 
 export class Report{
     // private eagleID: string;
-    // private gender: string;
+    private gender: string;
     private familiarity: string;
     private knewStrategy: string;
     private strategy: string;
@@ -20,7 +20,8 @@ export class Report{
     //     this.gender = a2;
     // }
 
-    public setEndSurvey(a3: string, a4: string, a5: string) {
+    public setEndSurvey(a2: string, a3: string, a4: string, a5: string) {
+        this.gender = a2;
         this.familiarity = a3;
         this.knewStrategy = a4;
         this.strategy = a5;
@@ -41,7 +42,7 @@ export class Report{
     public async sendReport() {
         const body: Body = {
             // eagleid: this.eagleID,
-            // gender: this.gender,
+            gender: this.gender,
             familiarity: this.familiarity,
             knewstrategy: this.knewStrategy,
             strategy: this.strategy,
@@ -61,7 +62,7 @@ export class Report{
 
 type Body = {
     // eagleid: string;
-    // gender: string;
+    gender: string;
     familiarity: string;
     knewstrategy: string;
     strategy: string;

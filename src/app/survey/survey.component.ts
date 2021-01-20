@@ -11,10 +11,13 @@ export class SurveyComponent implements OnInit {
   yesToFirst = false;
   firstAnswered = false;
   answered = false;
+  isGendered = false;
+  q2: HTMLSelectElement;
   q3: HTMLSelectElement;
   q4: HTMLSelectElement;
   q5: HTMLTextAreaElement;
 
+  a2: string;
   a3: string;
   a4: string;
   a5: string;
@@ -30,6 +33,8 @@ export class SurveyComponent implements OnInit {
   }
 
   submit() {
+    this.q2 = document.getElementById("q2") as HTMLSelectElement;
+    this.a2 = this.q2.value;
     this.q3 = document.getElementById("q3") as HTMLSelectElement;
     this.a3 = this.q3.value;
     this.q5 = document.getElementById("q5") as HTMLTextAreaElement;
@@ -42,7 +47,7 @@ export class SurveyComponent implements OnInit {
       this.a4 = this.q4.value;
     }
 
-    evaluation.endSurvey(this.a3, this.a4, this.a5);
+    evaluation.endSurvey(this.a2, this.a3, this.a4, this.a5);
     evaluation.sendReport();
 
     this.showEnd();
@@ -63,6 +68,12 @@ export class SurveyComponent implements OnInit {
     this.q4 = document.getElementById("q4") as HTMLSelectElement;
     this.a4 = this.q4.value;
     this.firstAnswered = true;
+  }
+
+  gendered() {
+    this.q2 = document.getElementById("q2") as HTMLSelectElement;
+    this.a2 = this.q2.value;
+    this.isGendered = true;
   }
 
 }

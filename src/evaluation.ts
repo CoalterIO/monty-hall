@@ -92,8 +92,8 @@ export class Evaluation {
         this.report.sendReport();
     }
 
-    public endSurvey(a3: string, a4: string, a5: string) {
-        this.report.setEndSurvey(a3, a4, a5);
+    public endSurvey(a2: string, a3: string, a4: string, a5: string) {
+        this.report.setEndSurvey(a2, a3, a4, a5);
     }
 
     // public startSurvey(a1: string, a2: string) {
