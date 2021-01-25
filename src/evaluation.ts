@@ -166,6 +166,7 @@ export class Evaluation {
             }
             //console.log(this.isTestControlList);
         }
+        this.report.setControl(this.isControl);
     }
 
     public setSelected(door: number) {
